@@ -188,19 +188,41 @@ def employee_form():
 
     employee_DOB_Entry = DateEntry(details_frame, font=("times new roman", 14,),width=18,state='readonly',date_pattern='dd/mm/yyyy')
     employee_DOB_Entry.grid(row=1, column=3, padx=20)
-    
 
+    # Education field
+    education_label = Label(details_frame, text="Education", font=("times new roman", 15, "bold"))
+    education_label.grid(row=2, column=2, padx=20, pady=15)
 
+    education_combo = ttk.Combobox(details_frame, 
+                                 values=('Bachelors', 'Masters', 'PhD', 'Other'),
+                                 font=('times new roman', 14),
+                                 state='readonly',
+                                 width=18)
+    education_combo.set('Select Education')
+    education_combo.grid(row=2, column=3, padx=20, pady=15)
 
+    # Date of Joining field
+    doj_label = Label(details_frame, text="Date of Joining", font=("times new roman", 15, "bold"))
+    doj_label.grid(row=3, column=2, padx=20, pady=15)
 
+    doj_entry = DateEntry(details_frame,
+                         font=("times new roman", 14),
+                         width=18,
+                         state='readonly',
+                         date_pattern='dd/mm/yyyy')
+    doj_entry.grid(row=3, column=3, padx=20, pady=15)
 
-  
-    
+    # User Type field
+    user_type_label = Label(details_frame, text="User Type", font=("times new roman", 15, "bold"))
+    user_type_label.grid(row=4, column=2, padx=20, pady=15)
 
-
-
-
-        
+    user_type_combo = ttk.Combobox(details_frame,
+                                  values=('Admin', 'Employee'),
+                                  font=('times new roman', 14),
+                                  state='readonly',
+                                  width=18)
+    user_type_combo.set('Select User Type')
+    user_type_combo.grid(row=4, column=3, padx=20, pady=15)
 
 #------------------------------GUI part-----------------------------------------------------------------------
 
