@@ -94,7 +94,7 @@ def employee_form():
     employee_treeview.pack(fill=BOTH, expand=True, padx=20,pady=20)
 
 
-    hor
+  
     
 
 
