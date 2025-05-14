@@ -8,7 +8,7 @@ import datetime
 def employee_form():
     global back_image  # Keep track of image reference
 
-    employee_form = Frame(window, width=1190, height=710, bg="white")
+    employee_form = Frame(window, width=1190, height=720, bg="white")
     employee_form.place(x=280, y=100)
 
     employee_title_form = Label(employee_form, text="Manage Employee Details", 
@@ -23,16 +23,81 @@ def employee_form():
     back_button = Button(employee_form, image=back_image,bg="white",bd=0,cursor='hand2',command=lambda:employee_form.place_forget())  # Use back_image instead of back_button
     back_button.place(x=0, y=30,width=80)
 
-    Top_frame= Frame(employee_form,bg='whitesmoke',bd=1)
+    Top_frame= Frame(employee_form,bg='whiteSmoke',bd=1)
     Top_frame.place(x=0,y=70,height=270,relwidth=1)
 
-    search_frame=Frame(Top_frame)
+    search_frame=Frame(Top_frame,bg='white')
     search_frame.pack()
 
-    Search_combo=ttk.Combobox(search_frame,values=(id,name,email),bg='white',font=('times new roman',12,'bold'),)
-    Search_combo.grid(row=0,column=0)
+    Search_combo=ttk.Combobox(search_frame,values=('id','Name','Email'),font=('times new roman',14,'bold'),state='readonly')
+    Search_combo.set('Search By')
+    Search_combo.grid(row=0,column=0,padx=20)
 
-    Search_combo_en
+    Search_combo_entry=Entry(search_frame,font=("times new romman",16,"bold"),bg='lightyellow')
+    Search_combo_entry.grid(row=0,column=1,padx=20)
+
+    search_button=Button(search_frame,font=("times new roman",12,'bold'),cursor='hand2',text="Search",bg="SteelBlue4")
+    search_button.grid(row=0,column=2,padx=30)
+
+    show_button=Button(search_frame,font=("times new roman",12,"bold"),cursor='hand2',text="Show All",bg="SteelBlue4")
+    show_button.grid(row=0,column=3,padx=30)
+
+    # Create scrollbars
+    HORIZONTAL_scrollbar = Scrollbar(Top_frame, orient=HORIZONTAL)
+    VERTICAL_scrollbar = Scrollbar(Top_frame, orient=VERTICAL)
+
+    # Create treeview with scrollbar configuration
+    employee_treeview = ttk.Treeview(
+        Top_frame, 
+        columns=('empid', 'name', 'email', 'gender', 'dob', 'employee_type', 
+                'education', 'salary', 'address', 'workshift', 'doj', 
+                'contact', 'user_type'),
+        show='headings',
+        yscrollcommand=VERTICAL_scrollbar.set,
+        xscrollcommand=HORIZONTAL_scrollbar.set
+    )
+
+    # Configure scrollbars
+    HORIZONTAL_scrollbar.pack(side=BOTTOM, fill=X)
+    VERTICAL_scrollbar.pack(side=RIGHT, fill=Y)
+    
+    # Connect scrollbars to treeview
+    HORIZONTAL_scrollbar.configure(command=employee_treeview.xview)
+    VERTICAL_scrollbar.configure(command=employee_treeview.yview)
+
+    employee_treeview.heading('empid', text='Employee ID')
+    employee_treeview.heading('name', text='Name')
+    employee_treeview.heading('email', text='Email')
+    employee_treeview.heading('gender', text='Gender')
+    employee_treeview.heading('dob', text='Date of Birth')
+    employee_treeview.heading('employee_type', text='Employee Type')
+    employee_treeview.heading('education', text='Education')
+    employee_treeview.heading('salary', text='Salary')
+    employee_treeview.heading('address', text='Address')
+    employee_treeview.heading('workshift', text='Work Shift')
+    employee_treeview.heading('doj', text='Date of Joining')
+    employee_treeview.heading('contact', text='Contact')
+    employee_treeview.heading('user_type', text='User Type')
+    employee_treeview.column('empid', width=100)
+    employee_treeview.column('name', width=150)
+    employee_treeview.column('email', width=200)
+    employee_treeview.column('gender', width=100)
+    employee_treeview.column('dob', width=120)
+    employee_treeview.column('employee_type', width=150)
+    employee_treeview.column('education', width=150)
+    employee_treeview.column('salary', width=120)
+    employee_treeview.column('address', width=200)
+    employee_treeview.column('workshift', width=120)
+    employee_treeview.column('doj', width=120)
+    employee_treeview.column('contact', width=150)
+    employee_treeview.column('user_type', width=150)
+    employee_treeview.pack(fill=BOTH, expand=True, padx=20,pady=20)
+
+
+    hor
+    
+
+
 
 
         
