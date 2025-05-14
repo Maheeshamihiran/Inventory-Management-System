@@ -36,10 +36,10 @@ def employee_form():
     Search_combo_entry=Entry(search_frame,font=("times new romman",16,"bold"),bg='lightyellow')
     Search_combo_entry.grid(row=0,column=1,padx=20)
 
-    search_button=Button(search_frame,font=("times new roman",12,'bold'),cursor='hand2',text="Search",bg="SteelBlue4")
+    search_button=Button(search_frame,font=("times new roman",12,'bold'),cursor='hand2',text="Search",bg="SteelBlue4",width=10)
     search_button.grid(row=0,column=2,padx=30)
 
-    show_button=Button(search_frame,font=("times new roman",12,"bold"),cursor='hand2',text="Show All",bg="SteelBlue4")
+    show_button=Button(search_frame,font=("times new roman",12,"bold"),cursor='hand2',text="Show All",bg="SteelBlue4",width=10)
     show_button.grid(row=0,column=3,padx=30)
 
     # Create scrollbars
