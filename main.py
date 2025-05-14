@@ -94,6 +94,45 @@ def employee_form():
     employee_treeview.pack(fill=BOTH, expand=True, padx=20,pady=20)
 
 
+
+    #----------- details frame         --------------------------------------------
+
+    details_frame=Frame(employee_form, bd=1)
+    details_frame.place(x=0, y=350, relwidth=1)
+
+    EmpID=Label(details_frame,text="Empid",font=("times new roman",15,"bold"))
+    EmpID.grid(row=0,column=0,padx=20,pady=15)
+
+    EmpID_entry=Entry(details_frame,font=("times new roman",14,"bold"),bg='lightyellow')
+    EmpID_entry.grid(row=0,column=1,padx=20,pady=15)
+
+    Gender_label=Label(details_frame,text='Gender',font=("times new roman",15,'bold'))
+    Gender_label.grid(row=1,column=0,padx=20,pady=15)
+
+    
+    Gender_combo=ttk.Combobox(details_frame,values=('Mail','Female'),font=('times new roman',14),state='readonly')
+    Gender_combo.set('Gender')
+    Gender_combo.grid(row=1,column=1,padx=20,pady=15)
+
+
+    employee_type_lable=Label(details_frame,text='Employee type',font=("times new roman",15,'bold'))
+    employee_type_lable.grid(row=2,column=0,padx=20,pady=15)
+
+    Employee_type_combo=ttk.Combobox(details_frame,values=('Full time','Trainer,contract'),font=('times new roman',14),state='readonly')
+    Employee_type_combo.set('Full time')
+    Employee_type_combo.grid(row=2,column=1,padx=20,pady=15)
+
+
+    employee_Address_Lable=Label(details_frame,text='Address',font=("times new roman",15,'bold'))
+    employee_Address_Lable.grid(row=3,column=1,padx=20,pady=15,rowspan=2)
+
+
+
+
+
+
+
+
   
     
 
