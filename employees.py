@@ -2,10 +2,69 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 from tkcalendar import DateEntry
+import pymysql
+
+
+
+
+def connect_database():
+    try:
+        connection = pymysql.connect(host='localhost', user='root', password="1234" )
+        cursor = connection.cursor()
+        
+    except Exception as e:
+        messagebox.showerror("Database Connection Error", f"Error connecting to database:\n{e}")
+        return None,None
+    
+    # Create database if not exists
+    cursor.execute('CREATE DATABASE IF NOT EXISTS inventory_systems')
+    cursor.execute('USE inventory_systems')
+    # Create employee table with all required fields
+    cursor.execute(' CREATE TABLE IF NOT  EXISTS employee_data (  empid INT PRIMARY KEY,  name VARCHAR(100), email VARCHAR(100),gender VARCHAR(10),dob VARCHAR(20),employee_type VARCHAR(50),education VARCHAR(50),salary FLOAT,address TEXT,workshift VARCHAR(20),doj VARCHAR(20),contact VARCHAR(20),user_type VARCHAR(20),password VARCHAR(100))')
+    # Removed recursive call to avoid infinite recursion
+
+    return connection,cursor
+   
+   
+
+    # Add this code where you want to test the connection
+ 
+def save_employee(empid, name, email, gender, dob, employee_type, 
+                education, salary, address, workshift, doj, 
+                contact, user_type,password):
+    
+
+ if( empid==''or gender==''or employee_type==''or address=='' or email=='' or contact==''or dob=='' or name=='' or password==''or doj=='' or 
+ education=="" or salary==''or workshift==" " or user_type==''):
+    messagebox.showerror('Error','all field are required')
+
+ else:
+     
+     connection,cursor=connect_database()
+     if not cursor or not connection:
+        return
+     sql="INSERT DATA INTO employee_data VALUES(%S,%S,%S,%S,%S,%S,%S,%S,%S,%S,%S,%S,%S,%S)"
+     val=('empid', 'name', 'email', 'gender', 'dob', 'employee_type', 
+                'education', 'salary', 'address', 'workshift', 'doj', 
+                'contact', 'user_type','password')
+                
+     cursor.execute(sql,val)  
+
+     connection.commit()
+     messagebox.showinfo("Success","insert is successful")       
+       
+
+
+
+
+
+
+ 
+    
 
 
 def employee_form(window):
-
+    
     global back_image  # Keep track of image reference
 
     employee_form = Frame(window, width=1190, height=720, bg="white")
@@ -51,7 +110,7 @@ def employee_form(window):
         Top_frame, 
         columns=('empid', 'name', 'email', 'gender', 'dob', 'employee_type', 
                 'education', 'salary', 'address', 'workshift', 'doj', 
-                'contact', 'user_type'),
+                'contact', 'user_type','password'),
         show='headings',
         yscrollcommand=VERTICAL_scrollbar.set,
         xscrollcommand=HORIZONTAL_scrollbar.set
@@ -91,6 +150,7 @@ def employee_form(window):
     employee_treeview.column('doj', width=120)
     employee_treeview.column('contact', width=150)
     employee_treeview.column('user_type', width=150)
+    employee_treeview.column('password', width=100)
     employee_treeview.pack(fill=BOTH, expand=True, padx=20, pady=20)
 
     #----------- details frame --------------------------------------------
@@ -220,7 +280,7 @@ def employee_form(window):
     button_frame.pack()
 
  #button 
-    save_button = Button( button_frame, text="Save", font=("times new roman", 15, "bold"), bg="green", fg="white", cursor="hand2",width=15)
+    save_button = Button( button_frame, text="Save", font=("times new roman", 15, "bold"), bg="green", fg="white", cursor="hand2",width=15,command=lambda:save_employee(EmpID_entry.get(),employee_Name_Entry.get(),employee_email_Entry.get(),Gender_combo.get(),employee_DOB_Entry.get(),employee_contact_Entry.get(),Employee_type_combo.get(),education_combo.get(),employee_salary_Entry.get(),employee_Address_Entry.get(1.0,END),doj_entry.get(),Work_shift_combo.get(),user_type_combo.get(),employee_Password_Entry.get()))
     save_button.grid(row=0,column=0,padx=50)
 
     update_button = Button( button_frame, text="Update", font=("times new roman", 15, "bold"), bg="blue", fg="white", cursor="hand2",width=15)
