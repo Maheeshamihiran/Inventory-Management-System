@@ -31,36 +31,44 @@ def connect_database():
  
 def save_employee(empid, name, email, gender, dob, employee_type, 
                 education, salary, address, workshift, doj, 
-                contact, user_type,password):
+                contact, user_type, password):
     
-
- if( empid==''or gender==''or employee_type==''or address=='' or email=='' or contact==''or dob=='' or name=='' or password==''or doj=='' or 
- education=="" or salary==''or workshift==" " or user_type==''):
-    messagebox.showerror('Error','all field are required')
-
- else:
-     
-     connection,cursor=connect_database()
-     if not cursor or not connection:
+    connection = None  # Initialize connection to None
+    
+    # Input validation
+    if(empid=='' or gender=='' or employee_type=='' or address=='' or 
+       email=='' or contact=='' or dob=='' or name=='' or password=='' or 
+       doj=='' or education=="" or salary=='' or workshift==" " or user_type==''):
+        messagebox.showerror('Error','All fields are required')
         return
-     sql="INSERT DATA INTO employee_data VALUES(%S,%S,%S,%S,%S,%S,%S,%S,%S,%S,%S,%S,%S,%S)"
-     val=('empid', 'name', 'email', 'gender', 'dob', 'employee_type', 
-                'education', 'salary', 'address', 'workshift', 'doj', 
-                'contact', 'user_type','password')
-                
-     cursor.execute(sql,val)  
 
-     connection.commit()
-     messagebox.showinfo("Success","insert is successful")       
+    try:
+        # Convert salary to float and empid to integer
        
+        
+        # Establish database connection
+        connection, cursor = connect_database()
+        if not cursor or not connection:
+            return
+        
+        # Execute the insert query
+        cursor.execute("""
+            INSERT INTO employee_data 
+            VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """, (empid, name, email, gender, dob, employee_type,
+              education, salary, address, workshift, doj,
+              contact, user_type, password))
 
-
-
-
-
-
- 
-    
+        connection.commit()
+        messagebox.showinfo("Success","Employee data saved successfully")
+        
+    except ValueError:
+        messagebox.showerror("Error", "Please enter valid numeric values for Employee ID and Salary")
+    except pymysql.Error as e:
+        messagebox.showerror("Database Error", f"Error saving employee data: {str(e)}")
+    finally:
+        if connection:
+            connection.close()
 
 
 def employee_form(window):
@@ -137,6 +145,7 @@ def employee_form(window):
     employee_treeview.heading('doj', text='Date of Joining')
     employee_treeview.heading('contact', text='Contact')
     employee_treeview.heading('user_type', text='User Type')
+    employee_treeview.heading('password', text='Password')
     employee_treeview.column('empid', width=100)
     employee_treeview.column('name', width=150)
     employee_treeview.column('email', width=200)
@@ -280,7 +289,7 @@ def employee_form(window):
     button_frame.pack()
 
  #button 
-    save_button = Button( button_frame, text="Save", font=("times new roman", 15, "bold"), bg="green", fg="white", cursor="hand2",width=15,command=lambda:save_employee(EmpID_entry.get(),employee_Name_Entry.get(),employee_email_Entry.get(),Gender_combo.get(),employee_DOB_Entry.get(),employee_contact_Entry.get(),Employee_type_combo.get(),education_combo.get(),employee_salary_Entry.get(),employee_Address_Entry.get(1.0,END),doj_entry.get(),Work_shift_combo.get(),user_type_combo.get(),employee_Password_Entry.get()))
+    save_button = Button( button_frame, text="Save", font=("times new roman", 15, "bold"), bg="green", fg="white", cursor="hand2",width=15,command=lambda:save_employee(EmpID_entry.get(),employee_Name_Entry.get(),employee_email_Entry.get(),Gender_combo.get(),employee_DOB_Entry.get(),Employee_type_combo.get(),education_combo.get(),employee_salary_Entry.get(),employee_Address_Entry.get(1.0,END),doj_entry.get(),employee_contact_Entry.get(),Work_shift_combo.get(),user_type_combo.get(),employee_Password_Entry.get()))
     save_button.grid(row=0,column=0,padx=50)
 
     update_button = Button( button_frame, text="Update", font=("times new roman", 15, "bold"), bg="blue", fg="white", cursor="hand2",width=15)
